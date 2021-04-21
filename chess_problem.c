@@ -21,22 +21,20 @@ int chess_mem[8][8] = {
 void print_brd(void);
 void move_piece(int from_x, int from_y, int to_x, int to_y);
 int find_king(void);
-
+void move_player(int pos);
 
 int main() {
 
 int input_pos = 0;
-
-
   
 loop:
 clear();
-printf("\nchess algorithem test\n");
+printf("\nchess algorithem test by Asaf Cohen\n");
 print_brd();
-printf("\ninput=%d\nking=%d\n",input_pos,find_king());
-printf("\nset king pos\n");
+//printf("\ninput=%d\nking=%d\n",input_pos,find_king());
+printf("\nset king pos = %d\n", find_king());
 scanf("%d",&input_pos);
-move_piece(find_king()%10,find_king()/10,input_pos%10,input_pos/10);
+move_player(input_pos);
 
 
 goto loop;
@@ -45,6 +43,9 @@ goto loop;
 
 //this function is for purly visual printing 
 void print_brd(void) {
+
+  int king = find_king();
+
   for(int i = 0; i < 8; i++) {
     printf("\n\n");
     for(int k = 0; k < 8; k++) {
@@ -55,29 +56,29 @@ void print_brd(void) {
         break;
 
         case 2:
-        printf(" %d@%d ",i,k);
-        break;
+        printf(" (@) ",i,k);
+        break;	
 
         case 0:
         
         if(i >= 0 && i < 8) {
-          if(i+1 == find_king() / 10 && k-1 == find_king() % 10) {
-          printf(" %d%d ",i,k);
+          if(i+1 == king / 10 && k-1 == king % 10) {
+          printf(" (2) ",i,k);
           break;
           } 
           
-          if(i+1 == find_king() / 10 && k+1 == find_king() % 10) {
-          printf(" %d%d ",i,k);
+          if(i+1 == king / 10 && k+1 == king % 10) {
+          printf(" (1) ",i,k);
           break;
           } 
 
-          if(i-1 == find_king() / 10 && k-1 == find_king() % 10) {
-          printf(" %d%d ",i,k);
+          if(i-1 == king / 10 && k-1 == king % 10) {
+          printf(" (3) ",i,k);
           break;
           } 
 
-          if(i-1 == find_king() / 10 && k+1 == find_king() % 10) {
-          printf(" %d%d ",i,k);
+          if(i-1 == king / 10 && k+1 == king % 10) {
+          printf(" (4) ",i,k);
           break;
           } 
 
@@ -94,16 +95,42 @@ void print_brd(void) {
 }
 
 void move_player(int pos) {
-  if(pos <= 4) {
-     
-  }
+      
+      
+      int king = find_king();
 
-  else {
-    return;
-  }
+      switch(pos) {
+     
+      case 4:
+
+          move_piece(king/10, king%10,(king/10)+1, (king%10)-1);
+          
+          break;
+          
+      case 3:
+      
+          move_piece(king/10, king%10,(king/10)+1, (king%10)+1);
+          break;
+          
+      case 1:
+          
+          move_piece(king/10, king%10,(king/10)-1, (king%10)-1);
+          
+          break;
+          
+      case 2:
+          move_piece(king/10, king%10,(king/10)-1, (king%10)+1);
+          
+          break;
+          
+      }
+  
 }
 
+
+
 int find_king(void) {
+
   for(int i = 0; i<8; i++) {
     for(int k = 0; k < 8; k++) {
       if(chess_mem[i][k] == 2) {
@@ -113,19 +140,24 @@ int find_king(void) {
   }
 }
 
+
 void move_piece(int from_x, int from_y, int to_x, int to_y){
 	
-	//check if its a valid piece
-	if(!chess_mem[from_x][from_y]) {
-		chess_mem[to_x][to_y] = chess_mem[from_x][from_y];
-	//reset to a blank pos
-		chess_mem[from_x][from_y] = 0; 
+	
+	if(to_x < 7 || to_y < 7 || to_y >= 0 || to_x >= 0) { 
+	  //check if its a valid piece
+	  if(chess_mem[from_x][from_y] != 0) {
+		  chess_mem[to_x][to_y] = chess_mem[from_x][from_y];
+	  //reset to a blank pos
+		  chess_mem[from_x][from_y] = 0; 
+	  }
 	}
 	
+	
   else {
-   return;
+  return;
 	}
- 
+  
 }
 
 
