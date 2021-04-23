@@ -8,14 +8,14 @@
 // blank = 0
 
 int chess_mem[8][8] = {  
-  1, 0, 1, 0, 1, 0, 1, 0, 
+  0, 1, 0, 1, 0, 1, 0, 1, 
   0, 0, 0, 0, 0, 0, 0, 0,  
   0, 0, 0, 0, 0, 0, 0, 0,    
   0, 0, 0, 0, 0, 0, 0, 0, 
   0, 0, 0, 0, 0, 0, 0, 0,   
   0, 0, 0, 0, 0, 0, 0, 0,  
   0, 0, 0, 0, 0, 0, 0, 0,    
-  0, 0, 0, 2, 0, 0, 0, 0  
+  0, 0, 0, 0, 2, 0, 0, 0  
 };
 
 void print_brd(void);
@@ -86,13 +86,12 @@ void print_brd(void) {
         else {
         printf("  #  ");
         break;
-        }
-        break;
       }
      }
    }
   }
  printf("\n");
+}
 }
 
 void move_player(int pos) {
@@ -151,11 +150,10 @@ void move_piece(int from_x, int from_y, int to_x, int to_y){
   }
 }
 
-//AI section 
+//AI section
 
 
+void move_ai(void) {
 
 
-
-
-
+}
