@@ -22,11 +22,11 @@ void print_brd(void);
 void move_piece(int from_x, int from_y, int to_x, int to_y);
 int find_king(void);
 void move_player(int pos);
-
+void move_ai(void);
 
 int main() {
 
-int input_p;
+int input_p = 0;
   
 loop:
 
@@ -37,8 +37,10 @@ print_brd();
 printf("\nking pos = %d\nset king pos = ", find_king());
 scanf("%d",&input_p);
 move_player(input_p);
+move_ai();
 
 goto loop;
+
 
 }
 
@@ -117,6 +119,10 @@ void move_player(int pos) {
       case 2:
           move_piece(king/10, king%10,(king/10)-1, (king%10)+1);
           break;
+
+      default:
+        //if input is invalid we retry
+        main();
           
       }
 }
@@ -152,8 +158,32 @@ void move_piece(int from_x, int from_y, int to_x, int to_y){
 
 //AI section
 
+//keep ai pos
+int ai_pos[4] = {
+  01,
+  03,
+  05,
+  07
+};
 
+//RL right left
+//-1 = right +1 = left
+void legal_ai_move(int ai_num, int RL) {
+
+
+if(((ai_pos[ai_num]%10)+RL) > 7) RL =  1;
+if(((ai_pos[ai_num]%10)+RL) < 0) RL = -1;  
+
+move_piece(ai_pos[ai_num]/10,ai_pos[ai_num]%10,(ai_pos[ai_num]/10)+1,((ai_pos[ai_num]%10)+RL));
+
+ai_pos[ai_num] = (10*(ai_pos[ai_num]/10))+1 + ((ai_pos[ai_num]%10)+RL);
+}
+
+int ai_callback = 0;
 void move_ai(void) {
 
+if(ai_callback == 4) ai_callback = 0;
+
+legal_ai_move(ai_callback++,-1);
 
 }
